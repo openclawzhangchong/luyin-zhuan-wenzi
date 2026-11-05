@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.DS_Store
+desktop.ini
+.herenow/
+desktop/server/models/
+desktop/server/输出/
+desktop/server/_tmp/
