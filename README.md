@@ -1,5 +1,9 @@
 # 🎙️ 录音转文字工作台
 
+[![Deploy Pages](https://github.com/openclawzhangchong/luyin-zhuan-wenzi/actions/workflows/pages.yml/badge.svg)](https://github.com/openclawzhangchong/luyin-zhuan-wenzi/actions/workflows/pages.yml)
+
+📄 **文档**：[开发手册](docs/DEVELOPMENT.md)（架构 / 数据契约 / 测试 / 二次开发指南）· [更新日志](CHANGELOG.md)
+
 把课堂录音、会议录音变成带时间轴的文字稿。**音频全程不出本机**，两种形态：
 
 | 形态 | 引擎 | 适合场景 | 入口 |
