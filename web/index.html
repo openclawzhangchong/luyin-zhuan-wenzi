@@ -81,7 +81,9 @@
 <script type="module">
 import { pipeline, env } from "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.3.1";
 // 模型随本站自托管（models/whisper-base/）：无第三方依赖、CORS 友好、国内直连可用
-env.remoteHost = location.origin;
+// 兼容子路径部署（GitHub Pages 项目页 /luyin-zhuan-wenzi/）：从 pathname 推导站点根
+const SITE_ROOT = location.pathname.replace(/\/[^/]*$/, "");
+env.remoteHost = location.origin + SITE_ROOT;
 env.remotePathTemplate = "{model}/";
 env.allowLocalModels = false;
 env.allowRemoteModels = true;
