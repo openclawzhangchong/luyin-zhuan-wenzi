@@ -4,7 +4,7 @@
 
 | 形态 | 引擎 | 适合场景 | 入口 |
 |---|---|---|---|
-| **网页版** | 浏览器内 Whisper（transformers.js，模型约 110MB，走 hf-mirror 镜像） | 零安装、任何电脑开箱即用 | **[GitHub Pages 在线版](https://openclawzhangchong.github.io/luyin-zhuan-wenzi/)** |
+| **网页版** | 浏览器内 Whisper（transformers.js，模型约 110MB，走 hf-mirror 镜像） | 零安装、任何电脑开箱即用 | **[GitHub Pages 在线版](https://openclawzhangchong.github.io/luyin-zhuan-wenzi/)**（[备用镜像](https://happy-summit-5p6x.here.now/)） |
 | **桌面版**（推荐） | faster-whisper small（CPU int8，本机推理） | 长录音、高准确率、机房/办公机 | `desktop/启动录音转文字.bat` 双击 |
 
 ## 功能
