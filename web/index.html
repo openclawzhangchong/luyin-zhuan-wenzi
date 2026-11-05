@@ -39,7 +39,7 @@
 <body>
 <div class="wrap">
   <header><h1>🎙️ 录音转文字</h1><span class="badge">浏览器本地推理 · 音频不出电脑</span></header>
-  <div class="sub">网页版：用浏览器里的 Whisper 模型转写，无需安装任何东西。首次使用需下载模型（约 110MB，之后浏览器缓存）。</div>
+  <div class="sub">网页版：用浏览器里的 Whisper 模型转写，无需安装任何东西。首次使用需下载模型（约 77MB，随本站自托管，之后浏览器缓存）。</div>
   <div class="note">说明：浏览器版用的是 whisper-base（为控制下载体积），中文准确率略低于桌面版（whisper-small）。
   长录音/高准确率场景请用仓库 desktop/ 目录下的双击版。建议单文件 ≤ 30 分钟。</div>
 
@@ -80,9 +80,11 @@
 <div id="toast"></div>
 <script type="module">
 import { pipeline, env } from "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.3.1";
-// 国内可达的模型镜像（模型文件来自 hf-mirror.com，推理全程在本机浏览器）
-env.remoteHost = "https://hf-mirror.com";
+// 模型随本站自托管（models/whisper-base/）：无第三方依赖、CORS 友好、国内直连可用
+env.remoteHost = location.origin;
+env.remotePathTemplate = "{model}/";
 env.allowLocalModels = false;
+env.allowRemoteModels = true;
 
 const $ = id => document.getElementById(id);
 let asr = null, ready = false, file = null, lastResult = null, transcribing = false;
@@ -108,7 +110,7 @@ async function loadModel(){
   $("loadBtn").disabled=true; $("go").disabled=true;
   let loadedBytes=0,totalBytes=0,filesDone=0,filesTotal=0;
   try{
-    asr = await pipeline("automatic-speech-recognition","Xenova/whisper-base",{
+    asr = await pipeline("automatic-speech-recognition","models/whisper-base",{
       dtype:"q8",
       progress_callback: p => {
         if(p.status==="progress"){ loadedBytes=p.loaded||0; totalBytes=p.total||0;
@@ -123,7 +125,7 @@ async function loadModel(){
     $("go").disabled=!file;
     return true;
   }catch(e){
-    setStatus("模型加载失败："+(e.message||e)+"<br>请检查网络（模型来自 hf-mirror.com）后重试");
+    setStatus("模型加载失败："+(e.message||e)+"<br>请检查网络后重试（模型随本站自托管）");
     $("loadBtn").disabled=false; $("go").disabled=false;
     return false;
   }
@@ -199,6 +201,33 @@ $("expT").onclick=()=>{
   a.download="转写稿_"+new Date().toISOString().slice(0,19).replace(/[-:T]/g,"")+".txt";
   a.click();
 };
+
+// —— 自测/演示模式：?demo=1 自动用内置样本跑全链路（无需选文件） ——
+if (new URLSearchParams(location.search).get("demo") === "1") {
+  (async () => {
+    try {
+      $("status").textContent = "DEMO：加载模型中…";
+      const ok = await loadModel();
+      if (!ok) { document.title = "DEMO FAIL: model"; return; }
+      $("status").textContent = "DEMO：下载内置语音样本…";
+      const resp = await fetch("demo/sample-zh.mp3");
+      const buf = await resp.arrayBuffer();
+      pick(new File([buf], "demo/sample-zh.mp3"));
+      $("status").textContent = "DEMO：转写中…";
+      const audio = await decodeTo16kMono(buf);
+      const out = await asr(audio, { task: "transcribe", chunk_length_s: 30, stride_length_s: 5, return_timestamps: true, language: "zh" });
+      lastResult = { text: out.text || "", chunks: (out.chunks || []).map(c => ({ start: c.timestamp[0], end: c.timestamp[1], text: c.text })) };
+      render(lastResult);
+      setBar(100);
+      $("status").textContent = "DEMO 完成。转写文本：" + out.text;
+      const pass = (out.text || "").includes("第五章") || (out.text || "").includes("网络") || (out.text || "").includes("课本");
+      document.title = "DEMO " + (pass ? "PASS" : "FAIL") + ": " + (out.text || "").slice(0, 24);
+    } catch (e) {
+      $("status").textContent = "DEMO 失败：" + (e.message || e);
+      document.title = "DEMO FAIL: " + (e.message || e);
+    }
+  })();
+}
 </script>
 </body>
 </html>
