@@ -7,6 +7,14 @@
 | **网页版** | 浏览器内 Whisper（transformers.js，模型约 110MB，走 hf-mirror 镜像） | 零安装、任何电脑开箱即用 | **[GitHub Pages 在线版](https://openclawzhangchong.github.io/luyin-zhuan-wenzi/)**（[备用镜像](https://hazy-crystal-tqp9.here.now/)） |
 | **桌面版**（推荐） | faster-whisper small（CPU int8，本机推理） | 长录音、高准确率、机房/办公机 | `desktop/启动录音转文字.bat` 双击 |
 
+## 界面预览
+
+![网页版界面](docs/screenshots/web-home.png)
+
+打开 `index.html?demo=1` 自动演示：模型加载→内置样本转写：
+
+![演示转写结果](docs/screenshots/demo-result.png)
+
 ## 功能
 
 - 拖入音频（m4a/mp3/wav/flac/aac/ogg/mp4 等）→ 转写 → **带时间轴分段稿 + 全文**
