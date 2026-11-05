@@ -3,7 +3,9 @@
 import sys, time, json, hashlib, requests
 
 BASE = sys.argv[1] if len(sys.argv) > 1 else "http://127.0.0.1:8765"
-AUDIO = r"C:\Users\Administrator\Documents\录音\录音.m4a"
+# 音频可用第 3 个参数覆盖（其他电脑请自备一段音频）：
+# python scripts/accept_1.py http://127.0.0.1:8765 evidence "D:\某\测试音频.m4a"
+AUDIO = sys.argv[3] if len(sys.argv) > 3 else r"C:\Users\Administrator\Documents\录音\录音.m4a"
 EVID = sys.argv[2] if len(sys.argv) > 2 else "evidence"
 import os
 os.makedirs(EVID, exist_ok=True)

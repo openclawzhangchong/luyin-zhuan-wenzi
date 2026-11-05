@@ -264,9 +264,9 @@ env.allowRemoteModels = true;
 
 ## 6. 测试与验收
 
-### 6.1 真实音频验收脚本 scripts/accept_1.py（workspace 内，不入仓库）
+### 6.1 真实音频验收脚本 scripts/accept_1.py（已随仓库交付）
 
-位于 `C:\Users\Administrator\.zcode\workspace\1793891459329-48ff391c-aa53-4698-a8eb-ac6dd7bfb2a2\scripts\accept_1.py`。
+位于仓库 `scripts/accept_1.py`。音频路径可用第 3 个参数覆盖（其他电脑请自备一段音频并传参）。
 前置：桌面版已启动、真实录音存在于 `C:\Users\Administrator\Documents\录音\录音.m4a`。
 
 ```bash
@@ -285,7 +285,7 @@ cd web && python -m http.server 8000
 # 浏览器打开 http://127.0.0.1:8000/index.html?demo=1 ，等状态行出现「DEMO 完成」
 ```
 
-### 6.3 无头截图驱动 scripts/shot.py（workspace 内，不入仓库）
+### 6.3 无头截图驱动 scripts/shot.py（工作区工具，未入仓库；需要时向维护人索取或参照 §6.1 思路自写）
 
 无头 Edge + CDP，支持注入 JS 制造界面状态（改 `--out`/`--url` 即可复用）：
 
